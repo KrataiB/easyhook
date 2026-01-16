@@ -1,15 +1,11 @@
-# @easyhook/core
+# core
 
-To install dependencies:
+This library was generated with [Nx](https://nx.dev).
 
-```bash
-bun install
-```
+## Building
 
-To run:
+Run `nx build core` to build the library.
 
-```bash
-bun run index.ts
-```
+## Running unit tests
 
-This project was created using `bun init` in bun v1.3.6. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Run `nx test core` to execute the unit tests via [Vitest](https://vitest.dev/).
