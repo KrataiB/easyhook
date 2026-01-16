@@ -19,23 +19,26 @@ jobs:
           filter: tree:0
           fetch-depth: 0
 
-      # This enables task distribution via Nx Cloud
-      # Run this command as early as possible, before dependencies are installed
-      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
-      # Uncomment this line to enable task distribution
-      # - run: npx nx start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="typecheck"
-
-      # Cache node_modules
-      - uses: actions/setup-node@v4
+      # Install bun
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: 'npm'
+          bun-version: latest
 
-      - run: npm ci
+      # Cache bun
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb', 'bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      - run: npx nx-cloud record -- npx nx format:check --base="remotes/origin/main"
-      - run: npx nx run-many -t lint test build typecheck
-      # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
-      - run: npx nx fix-ci
+      - run: bun install --frozen-lockfile
+
+      # Nx commands (ใช้ผ่าน bunx)
+      - run: bunx nx-cloud record -- bunx nx format:check --base="remotes/origin/main"
+      - run: bunx nx run-many -t lint test build typecheck
+
+      - run: bunx nx fix-ci
         if: always()
