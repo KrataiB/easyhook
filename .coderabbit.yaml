@@ -1,0 +1,22 @@
+reviews:
+  auto_review:
+    enabled: true
+
+  path_filters:
+    - 'packages/**'
+    - 'tools/**'
+    - '!**/dist/**'
+    - '!**/build/**'
+    - '!**/coverage/**'
+    - '!**/.nx/**'
+    - '!**/node_modules/**'
+    - '!**/*.snap'
+    - '!**/*.generated.*'
+    - '!**/bun.lockb'
+
+  instructions: |
+    This is an Nx monorepo using bun and the main code lives in packages/.
+    Prefer changes that maintain clean project boundaries and avoid circular deps.
+    If a change affects a library, consider impacted dependents.
+    Suggest Nx affected commands using bun, e.g.:
+    - bunx nx affected -t lint,test,build

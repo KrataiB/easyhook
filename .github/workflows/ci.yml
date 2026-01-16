@@ -2,13 +2,17 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
-  actions: read
   contents: read
+  actions: read
+  pull-requests: read
 
 jobs:
   main:
@@ -16,29 +20,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          filter: tree:0
           fetch-depth: 0
 
-      # Install bun
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      # Cache bun
       - uses: actions/cache@v4
         with:
           path: |
             ~/.bun/install/cache
-            node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb', 'bun.lock') }}
+            .nx/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
 
       - run: bun install --frozen-lockfile
 
-      # Nx commands (ใช้ผ่าน bunx)
-      - run: bunx nx-cloud record -- bunx nx format:check --base="remotes/origin/main"
-      - run: bunx nx run-many -t lint test build typecheck
+      # ตั้ง base/head ให้ nx affected (รองรับ PR/base branch ต่าง ๆ)
+      - uses: nrwl/nx-set-shas@v4
 
+      # รันแบบ affected ใน PR (เร็วกว่า) และยังโอเคบน main ด้วย
+      - run: |
+          bunx nx-cloud record -- \
+            bunx nx format:check && \
+            bunx nx affected -t lint,test,build,typecheck --parallel=3
       - run: bunx nx fix-ci
         if: always()
