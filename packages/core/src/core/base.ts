@@ -25,7 +25,8 @@ export class Easyhook extends TypedEmitter<BaseEvents> {
 
     switch (provider) {
       case HookProvider.EasyDonate: {
-        const input = EasydonateSchema(body);
+        const payload = { ...(body as object), provider };
+        const input = EasydonateSchema(payload);
 
         if (input instanceof type.errors) {
           throw new WebhookValidationError(provider, input.summary);
