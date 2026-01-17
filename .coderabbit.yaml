@@ -3,6 +3,8 @@ reviews:
     enabled: true
 
   path_filters:
+    - 'package.json'
+    - 'nx.json'
     - 'packages/**'
     - 'tools/**'
     - '!**/dist/**'
