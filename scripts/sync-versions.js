@@ -39,16 +39,33 @@ for (const name of packages) {
   const pkgPath = join(packagesDir, name, 'package.json');
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
 
-  const currentVersion = pkg.dependencies['@easyhook/core'];
-  const newVersion = `^${coreVersion}`;
+  const currentDepVersion = pkg.dependencies['@easyhook/core'];
+  const newDepVersion = `^${coreVersion}`;
+  const currentPkgVersion = pkg.version;
 
-  if (currentVersion !== newVersion) {
-    pkg.dependencies['@easyhook/core'] = newVersion;
+  let hasChanges = false;
+
+  if (currentDepVersion !== newDepVersion) {
+    pkg.dependencies['@easyhook/core'] = newDepVersion;
+    console.log(
+      `✅ Updated ${pkg.name} dependency: ${currentDepVersion} → ${newDepVersion}`
+    );
+    hasChanges = true;
+  }
+
+  if (currentPkgVersion !== coreVersion) {
+    pkg.version = coreVersion;
+    console.log(
+      `✅ Updated ${pkg.name} version: ${currentPkgVersion} → ${coreVersion}`
+    );
+    hasChanges = true;
+  }
+
+  if (hasChanges) {
     writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
-    console.log(`✅ Updated ${pkg.name}: ${currentVersion} → ${newVersion}`);
     updated++;
   } else {
-    console.log(`⏭️  ${pkg.name}: already up to date (${currentVersion})`);
+    console.log(`⏭️  ${pkg.name}: already up to date`);
   }
 }
 
