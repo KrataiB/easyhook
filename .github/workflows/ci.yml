@@ -40,7 +40,6 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-          registry-url: 'https://registry.npmjs.org'
 
       - run: bun install --frozen-lockfile
       - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -51,8 +50,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+      # Setup npm authentication for bun
+      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       # Publish packages to npm
       - run: bun nx release publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org
