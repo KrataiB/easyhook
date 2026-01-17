@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/vitest",
     "types": [
@@ -24,9 +24,7 @@
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
-    "src/**/*.d.ts",
-    "src/types/payload.ts",
-    "src/types/events.ts"
+    "src/**/*.d.ts"
   ],
   "references": [
     {
