@@ -56,12 +56,19 @@
     "projects": ["packages/*"],
     "projectsRelationship": "fixed",
     "version": {
-      "preVersionCommand": "node scripts/sync-versions.js && npx nx run-many -t build"
+      "preVersionCommand": "node scripts/sync-versions.js && npx nx run-many -t build",
+      "conventionalCommits": true,
+      "fallbackCurrentVersionResolver": "disk"
     },
     "changelog": {
+      "automaticFromRef": true,
       "workspaceChangelog": {
         "createRelease": "github"
       }
+    },
+    "git": {
+      "commit": true,
+      "tag": true
     }
   },
   "targetDefaults": {

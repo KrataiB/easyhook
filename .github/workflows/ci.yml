@@ -47,7 +47,7 @@ jobs:
       - run: git config --global user.name "github-actions[bot]"
 
       # Version packages and generate changelogs
-      - run: bun nx release
+      - run: bun nx release --skip-publish
 
       # Publish packages to npm
       - run: bun nx release publish

@@ -1,6 +1,6 @@
 {
   "name": "@easyhook/adapter-elysia",
-  "version": "1.0.2",
+  "version": "1.2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -41,7 +41,7 @@
     }
   },
   "dependencies": {
-    "@easyhook/core": "^1.0.2",
+    "@easyhook/core": "^1.2.0",
     "@swc/helpers": "~0.5.11",
     "elysia": "^1.4.22",
     "vitest": "^4.0.17"
