@@ -18,6 +18,7 @@ app
   .use(EasyhookIntegration(client))
   .post('/api/v1/hooks/:provider', WebhookGateway())
   .post('/easydonate', WebhookGateway('easydonate'))
+
   .post('/manual-test', ({ easyhook, body }) => {
     console.log('Doing something extra before processing...');
     easyhook.isWebhook('easydonate', body);
