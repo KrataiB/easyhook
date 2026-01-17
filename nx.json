@@ -56,7 +56,7 @@
     "projects": ["packages/*"],
     "projectsRelationship": "fixed",
     "version": {
-      "preVersionCommand": "node scripts/sync-versions.js && npx nx run-many -t build",
+      "preVersionCommand": "bun scripts/sync-versions.js && bun nx run-many -t build",
       "conventionalCommits": true,
       "fallbackCurrentVersionResolver": "disk"
     },
