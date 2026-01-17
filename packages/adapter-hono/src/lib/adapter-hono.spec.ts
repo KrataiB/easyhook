@@ -1,7 +1,8 @@
-import { createHonoAdapter } from './adapter-hono.js';
+import { EasyhookIntegration, WebhookGateway } from './adapter-hono.js';
 
-describe('createHonoAdapter', () => {
+describe('adapterHono', () => {
   it('should work', () => {
-    expect(typeof createHonoAdapter).toBe('function');
+    expect(typeof EasyhookIntegration).toBe('function');
+    expect(typeof WebhookGateway).toBe('function');
   });
 });

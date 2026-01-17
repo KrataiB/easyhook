@@ -1,7 +1,8 @@
-import { createElysiaAdapter } from './adapter-elysia.js';
+import { EasyhookIntegration, WebhookGateway } from './adapter-elysia.js';
 
-describe('createElysiaAdapter', () => {
+describe('easyhookAdapter', () => {
   it('should work', () => {
-    expect(createElysiaAdapter).toBeDefined();
+    expect(EasyhookIntegration).toBeDefined();
+    expect(WebhookGateway).toBeDefined();
   });
 });
