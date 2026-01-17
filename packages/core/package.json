@@ -1,6 +1,9 @@
 {
   "name": "@easyhook/core",
   "version": "1.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
   "private": false,
   "type": "module",
   "main": "./dist/index.js",
