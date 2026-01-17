@@ -1,3 +1,14 @@
+## 1.3.0 (2026-01-17)
+
+### 🚀 Features
+
+- Enable automaticFromRef for changelog generation. ([be7a756](https://github.com/KrataiB/easyhook/commit/be7a756))
+- update @easyhook/core dependency to ^1.2.0 in adapter-hono and adapter-elysia. ([06c14fd](https://github.com/KrataiB/easyhook/commit/06c14fd))
+
+### ❤️ Thank You
+
+- KrataiB
+
 ## 1.2.0 (2026-01-17)
 
 ### 🚀 Features
