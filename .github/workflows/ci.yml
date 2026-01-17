@@ -46,8 +46,10 @@ jobs:
       - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - run: git config --global user.name "github-actions[bot]"
 
-      # Version packages and generate changelogs
+      # Version packages and generate changelogs + GitHub Release
       - run: bun nx release --skip-publish
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       # Publish packages to npm
       - run: bun nx release publish
