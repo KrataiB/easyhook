@@ -51,7 +51,20 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       # Setup npm authentication for bun
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Setup npm authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "📋 Checking NPM_TOKEN..."
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "❌ NPM_TOKEN is EMPTY or NOT SET!"
+            exit 1
+          else
+            echo "✅ NPM_TOKEN is set (length: ${#NPM_TOKEN_LENGTH} chars)"
+          fi
+          echo "📄 .npmrc file contents (token masked):"
+          cat ~/.npmrc | sed 's/=.*/=***MASKED***/'
+        env:
+          NPM_TOKEN_LENGTH: ${{ secrets.NPM_TOKEN }}
 
       # Publish packages to npm
       - run: bun nx release publish
