@@ -1,7 +1,7 @@
 {
   "name": "@easyhook/adapter-hono",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -23,7 +23,7 @@
     "sourceRoot": "packages/adapter-hono/src",
     "targets": {
       "typecheck": {
-         "command": "tsc --noEmit -p packages/adapter-hono/tsconfig.lib.json"
+        "command": "tsc --noEmit -p packages/adapter-hono/tsconfig.lib.json"
       },
       "build": {
         "executor": "@nx/js:swc",
