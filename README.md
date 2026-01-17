@@ -98,18 +98,63 @@ const app = new Elysia()
 
 ```typescript
 import { Hono } from 'hono';
-import { createHonoAdapter } from '@easyhook/adapter-hono';
+import { EasyhookIntegration, WebhookGateway } from '@easyhook/adapter-hono';
 import { easyhook } from './client';
 
 const app = new Hono();
 
+app.use(EasyhookIntegration(easyhook));
+
 // Automatic Gateway
-app.post('/webhooks/:provider', createHonoAdapter(easyhook));
+app.post('/webhooks/:provider', WebhookGateway());
 
 // Or specific endpoint
-app.post('/github-webhook', createHonoAdapter(easyhook, 'github'));
+app.post('/github-webhook', WebhookGateway('github'));
 
 export default app;
+```
+
+#### Manual Integration / Express
+
+You can use the core library directly with any framework, such as Express.
+
+```typescript
+import express from 'express';
+import { Easyhook, WebhookValidationError } from '@easyhook/core';
+
+const app = express();
+app.use(express.json());
+
+const easyhook = new Easyhook({
+  intents: ['github', 'easydonate'],
+});
+
+easyhook.on('github', (payload) => {
+  console.log('GitHub Push:', payload);
+});
+
+app.post('/webhooks/:provider', (req, res) => {
+  const { provider } = req.params;
+
+  try {
+    // Manually trigger validation
+    easyhook.isWebhook(provider as any, req.body);
+    res.json({ success: true });
+  } catch (error) {
+    if (error instanceof WebhookValidationError) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation Failed',
+        provider: error.provider,
+        message: error.details,
+      });
+    }
+    console.error(error);
+    res.status(500).json({ success: false });
+  }
+});
+
+app.listen(3000);
 ```
 
 ## 🛡️ Validation
@@ -123,3 +168,7 @@ Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for
 ## 📄 License
 
 MIT
+
+```
+
+```
