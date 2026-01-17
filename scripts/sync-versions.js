@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+/**
+ * Sync @easyhook/core version across all adapter packages
+ * Runs automatically before nx release via preVersionCommand
+ */
+
+import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const packagesDir = join(__dirname, '..', 'packages');
+
+// Read @easyhook/core version
+const corePackageJson = JSON.parse(
+  readFileSync(join(packagesDir, 'core', 'package.json'), 'utf-8')
+);
+const coreVersion = corePackageJson.version;
+
+console.log(`📦 @easyhook/core version: ${coreVersion}`);
+
+// Find all adapter packages
+const packages = readdirSync(packagesDir).filter((name) => {
+  const pkgPath = join(packagesDir, name, 'package.json');
+  if (!existsSync(pkgPath)) return false;
+
+  const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+  return pkg.dependencies?.['@easyhook/core'] !== undefined;
+});
+
+console.log(
+  `🔍 Found ${packages.length} packages with @easyhook/core dependency`
+);
+
+// Update each package
+let updated = 0;
+for (const name of packages) {
+  const pkgPath = join(packagesDir, name, 'package.json');
+  const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+
+  const currentVersion = pkg.dependencies['@easyhook/core'];
+  const newVersion = `^${coreVersion}`;
+
+  if (currentVersion !== newVersion) {
+    pkg.dependencies['@easyhook/core'] = newVersion;
+    writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
+    console.log(`✅ Updated ${pkg.name}: ${currentVersion} → ${newVersion}`);
+    updated++;
+  } else {
+    console.log(`⏭️  ${pkg.name}: already up to date (${currentVersion})`);
+  }
+}
+
+console.log(`\n✨ Done! Updated ${updated} package(s)`);
