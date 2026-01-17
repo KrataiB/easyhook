@@ -53,8 +53,15 @@
     }
   ],
   "release": {
+    "projects": ["packages/*"],
+    "projectsRelationship": "fixed",
     "version": {
       "preVersionCommand": "npx nx run-many -t build"
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      }
     }
   },
   "targetDefaults": {
