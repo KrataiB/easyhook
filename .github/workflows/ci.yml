@@ -40,7 +40,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-          registries: 'https://registry.npmjs.org'
+          registry-url: 'https://registry.npmjs.org'
 
       - run: bun install --frozen-lockfile
       - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
