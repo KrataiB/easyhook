@@ -1,3 +1,14 @@
+## 1.4.0 (2026-01-17)
+
+### 🚀 Features
+
+- Add `files` array to package.json files and build all packages in CI before publishing. ([3e46721](https://github.com/KrataiB/easyhook/commit/3e46721))
+- Configure CI to use comprehensive `nx release` command and update `nx.json` pre-version command to use `bun`. ([a5fa8f8](https://github.com/KrataiB/easyhook/commit/a5fa8f8))
+
+### ❤️ Thank You
+
+- KrataiB
+
 ## 1.3.0 (2026-01-17)
 
 ### 🚀 Features
