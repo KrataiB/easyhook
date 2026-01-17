@@ -1,21 +1,18 @@
-name: CI
+name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - develop
   pull_request:
 
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
 permissions:
-  contents: read
   actions: read
-  pull-requests: read
+  contents: write
 
 jobs:
-  main:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,24 +23,34 @@ jobs:
         with:
           bun-version: latest
 
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.bun/install/cache
-            .nx/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
-
       - run: bun install --frozen-lockfile
-
-      # ตั้ง base/head ให้ nx affected (รองรับ PR/base branch ต่าง ๆ)
       - uses: nrwl/nx-set-shas@v4
 
-      # รันแบบ affected ใน PR (เร็วกว่า) และยังโอเคบน main ด้วย
-      - run: |
-          bunx nx-cloud record -- \
-            bunx nx format:check && \
-            bunx nx affected -t lint,test,build,typecheck --parallel=3
-      - run: bunx nx fix-ci
-        if: always()
+      - run: bun nx affected -t lint test build
+
+  release:
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          registries: 'https://registry.npmjs.org'
+
+      - run: bun install --frozen-lockfile
+      - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - run: git config --global user.name "github-actions[bot]"
+
+      # Version packages and generate changelogs
+      - run: bun nx release
+
+      # Publish packages to npm
+      - run: bun nx release publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

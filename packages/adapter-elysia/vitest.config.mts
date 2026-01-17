@@ -6,9 +6,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/packages/core',
+  cacheDir: '../../node_modules/.vite/packages/adapter-elysia',
   test: {
-    name: '@easyhook/core',
+    name: '@easyhook/adapter-elysia',
     watch: false,
     globals: true,
     environment: 'node',

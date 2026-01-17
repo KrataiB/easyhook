@@ -1,7 +1,7 @@
 {
-  "name": "@easyhook/core",
+  "name": "@easyhook/adapter-hono",
   "version": "0.0.1",
-  "private": false,
+  "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -9,6 +9,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "@easyhook/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -16,36 +17,35 @@
   },
   "nx": {
     "tags": [
-      "type:core",
+      "type:adapter",
       "scope:easyhook"
     ],
-    "sourceRoot": "packages/core/src",
+    "sourceRoot": "packages/adapter-hono/src",
     "targets": {
+      "typecheck": {
+         "command": "tsc --noEmit -p packages/adapter-hono/tsconfig.lib.json"
+      },
       "build": {
         "executor": "@nx/js:swc",
         "outputs": [
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "packages/core/dist",
-          "main": "packages/core/src/index.ts",
-          "tsConfig": "packages/core/tsconfig.lib.json",
-          "skipTypeCheck": false,
+          "outputPath": "packages/adapter-hono/dist",
+          "main": "packages/adapter-hono/src/index.ts",
+          "tsConfig": "packages/adapter-hono/tsconfig.lib.json",
+          "skipTypeCheck": true,
           "stripLeadingPaths": true
-        }
-      },
-      "typecheck": {
-        "executor": "nx:run-commands",
-        "options": {
-          "command": "tsc -p packages/core/tsconfig.lib.json --noEmit"
         }
       }
     }
   },
   "dependencies": {
+    "@easyhook/core": "workspace:*",
     "@swc/helpers": "~0.5.11",
-    "arktype": "^2.1.29",
-    "tiny-typed-emitter": "^2.1.0",
+    "hono": "^4.11.4"
+  },
+  "devDependencies": {
     "vitest": "^4.0.17"
   }
 }

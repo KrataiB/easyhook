@@ -1,14 +1,16 @@
-import { defineConfig } from 'vitest/config';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+/// <reference types='vitest' />
+import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
-  root: __dirname,
-  cacheDir: '../../node_modules/.vite/packages/core',
+  root: import.meta.dirname,
+  cacheDir: '../../node_modules/.vite/packages/adapter-hono',
+  plugins: [],
+  // Uncomment this if you are using workers.
+  // worker: {
+  //  plugins: [],
+  // },
   test: {
-    name: '@easyhook/core',
+    name: '@easyhook/adapter-hono',
     watch: false,
     globals: true,
     environment: 'node',
