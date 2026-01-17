@@ -1,6 +1,6 @@
 {
   "name": "@easyhook/adapter-hono",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@easyhook/core": "workspace:*",
+    "@easyhook/core": "workspace:^",
     "@swc/helpers": "~0.5.11",
     "hono": "^4.11.4"
   },
