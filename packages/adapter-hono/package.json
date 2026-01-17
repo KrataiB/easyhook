@@ -5,6 +5,10 @@
     "access": "public"
   },
   "private": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

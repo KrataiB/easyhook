@@ -50,6 +50,9 @@ jobs:
         run: bunx nx report
         shell: bash
 
+      - name: Build packages
+        run: bunx nx run-many -t build --all
+
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
