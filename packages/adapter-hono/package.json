@@ -22,6 +22,9 @@
     ],
     "sourceRoot": "packages/adapter-hono/src",
     "targets": {
+      "typecheck": {
+         "command": "tsc --noEmit -p packages/adapter-hono/tsconfig.lib.json"
+      },
       "build": {
         "executor": "@nx/js:swc",
         "outputs": [

@@ -45,8 +45,7 @@ export class Easyhook extends TypedEmitter<BaseEvents> {
         break;
       }
       default:
-        console.warn(`Provider not handled: ${provider}`);
-        break;
+        throw new Error(`Unhandled provider: ${provider}`);
     }
   }
 }

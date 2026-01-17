@@ -3,7 +3,7 @@ import { Easyhook } from '../core/base.js';
 import { HookProvider } from '../utils/provider.js';
 
 describe('Github Webhook Provider', () => {
-  it('should handle github push event and emit "github-push"', () => {
+  it('should handle github push event and emit "github"', () => {
     const easyhook = new Easyhook({
       intents: ['github'],
     });
