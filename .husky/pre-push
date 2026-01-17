@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Sync @easyhook/core version to all adapters before push
+echo "🔄 Syncing package versions..."
+node scripts/sync-versions.js
+
+# Stage the updated package.json files if they changed
+git add packages/*/package.json 2>/dev/null || true

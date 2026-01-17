@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Run lint and typecheck on affected projects before commit
+bun nx affected -t lint typecheck --base=HEAD~1
