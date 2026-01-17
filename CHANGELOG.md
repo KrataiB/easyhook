@@ -1,3 +1,13 @@
+## 1.4.1 (2026-01-17)
+
+### 🩹 Fixes
+
+- Include provider in EasydonateSchema validation payload and bump package versions. ([8fc4913](https://github.com/KrataiB/easyhook/commit/8fc4913))
+
+### ❤️ Thank You
+
+- KrataiB
+
 ## 1.4.0 (2026-01-17)
 
 ### 🚀 Features
